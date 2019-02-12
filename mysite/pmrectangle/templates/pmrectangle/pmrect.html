@@ -1,0 +1,211 @@
+{% extends 'pmrectangle/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block topcorner %}
+<div class="topcorner">
+  <div class="row">
+    <button type="button" name="" class="btn btn-sm d-print-none" onclick="window.print();"><i class="fas fa-print"></i> Print</button>
+  </div>
+  <br>
+  <div class="row">
+    <button type="button" id="save" class="btn btn-sm d-print-none"><i class="fas fa-save"></i> Save</button>
+  </div>
+  <br>
+  <div class="row">
+    <button type="button" id="saveAs" class="btn btn-sm d-print-none"><i class="fas fa-save"></i> Save as</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h5 align="center">P-M Diagram for Rectangular Columns</h5>
+  <p align="center">(Based on AASTHO LRFD 8th Edition & ACI 318-14)</p>
+  <h6>Input Parameters:</h6>
+  <p>Provide following design parameters :</p>
+
+<div class="jumbo">
+  <div class="row">
+    <div class="col">
+      <form>
+        <div class="form-group">
+          <label for="">Design Code</label>
+          <select class="" id="code" align="right">
+            <option value="0">AASTHO LRFD</option>
+            <option value="1">ACI 318-14</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="ht">Depth (along Y), h (in)</label>
+          <input id = "ht" type="number" name="ht" value="" placeholder="Height (in)">
+        </div>
+        <div class="form-group">
+          <label for="wt">Width (along X), b (in)</label>
+          <input id = "wt" type="number" name="wt" value="" placeholder="Width (in)">
+        </div>
+      </form>
+
+    </div>
+    <div class="col">
+      <form>
+          <div class="form-group">
+            <label for="fc">f'c (ksi)</label>
+            <input id = "fc" type="number" name="fc" value="4.0">
+          </div>
+          <div class="form-group">
+            <label for="fy">fy (ksi)</label>
+            <input id = "fy" type="number" name="fy" value="60">
+          </div>
+          <div class="form-group">
+            <label for="E">Es (ksi)</label>
+            <input id = "E" type="number" name="E" value= "29000" >
+          </div>
+          <div class="form-group">
+            <label for="">Transverse Reinforcement</label>
+            <select class="" id="tie" align="right">
+              <option value="0">Spiral</option>
+              <option value="1" selected>Tied/Other</option>
+            </select>
+          </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- <button id ="nextStep" type="button" name="button" class="btn btn-primary">Add next Step</button> -->
+<div id="">
+ <h6>Reinforcement Details</h6>
+ <div class="jumbo">
+ <div class="row justify-content-md-center">
+   <div class="col-md-auto">
+     <table class="table table-bordered">
+       <thead>
+         <tr id="tableHead">
+           <th scope="col">Layers</th>
+           <th scope="col">Bar Size</th>
+           <th scope="col">No. of Bars</th>
+           <th scope="col">ds (in)</th>
+         </tr>
+       </thead>
+
+       <tbody id="steel">
+         <tr>
+           <td>1</td>
+           <td>
+             <select class="form-control">
+               <option value="0">#3</option>
+               <option value="1">#4</option>
+               <option value="2">#5</option>
+               <option value="3">#6</option>
+               <option value="4">#7</option>
+               <option value="5">#8</option>
+               <option value="6" selected>#9</option>
+               <option value="7">#10</option>
+               <option value="8">#11</option>
+               <option value="9">#14</option>
+               <option value="10">#18</option>
+             </select>
+           </td>
+           <td><input class="form-control" type="number" name="" value= "2" ></td>
+           <td><input class="form-control" type="number" name="" value= "2.50" ></td>
+         </tr>
+
+         <tr>
+           <td>2</td>
+           <td>
+               <select class="form-control">
+                 <option value="0">#3</option>
+                 <option value="1">#4</option>
+                 <option value="2">#5</option>
+                 <option value="3">#6</option>
+                 <option value="4">#7</option>
+                 <option value="5">#8</option>
+                 <option value="6" selected>#9</option>
+                 <option value="7">#10</option>
+                 <option value="8">#11</option>
+                 <option value="9">#14</option>
+                 <option value="10">#18</option>
+               </select>
+           </td>
+           <td><input class="form-control" type="number" name="" value= "2" ></td>
+           <td><input class="form-control" type="number" name="" value= "27.50" ></td>
+         </tr>
+       </tbody>
+     </table>
+      <button id ="addLayer" type="button" name="button" class="btn btn-primary" onclick="createLayer()">Add Layer</button>
+      <button id ="removeLayer" type="button" name="" class="btn btn-primary" onclick="removeLayer()">Remove Layer</button>
+   </div>
+   <div class="col-sm-4" id="xSection"></div>
+ </div>
+ </div>
+</div>
+
+<div id="" align="center">
+<button id ="calculate" type="button" name="button" class="btn btn-primary" onclick="plotPM()">Calculate & Plot</button>
+</div>
+
+<div class="">
+  <h6>Calculated Parameters</h6>
+  <div class="row">
+  <div class="col">
+    <form>
+        <div class="form-group">
+          <label id="Ag">Gross sectional area, Ag = <span></span> </label>
+        </div>
+    </form>
+
+  </div>
+  <div class="col">
+    <form>
+        <div class="form-group">
+          <label id="beta"></label>
+
+        </div>
+    </form>
+  </div>
+ </div>
+</div>
+
+<div class="row">
+  <div id="chart-area" style=""></div>
+  <!-- <div id="chart-area" style="width:500px;height:600px;"></div> -->
+</div>
+
+<div class="">
+  <h6>Plot Pu and Mu for different load cases in the above chart:</h6>
+  <div class="jumbo">
+  <div class="row">
+    <div class="col">
+
+      <table class="table table-bordered">
+        <thead>
+          <tr id="tableHead02">
+            <th scope="col">Load Case</th>
+            <th scope="col">Pu (kips)</th>
+            <th scope="col">Mu (k-ft)</th>
+          </tr>
+        </thead>
+
+        <tbody id="userData">
+          <tr>
+            <td>1</td>
+            <td><input type="number" name="" value= "0.0" ></td>
+            <td><input type="number" name="" value= "0.0" ></td>
+          </tr>
+        </tbody>
+      </table>
+       <button type="button" name="button" class="btn btn-primary" onclick="createLoadCase()">Add Load Case</button>
+       <button type="button" name="" class="btn btn-primary" onclick="removeLoadCase()">Remove Load Case</button>
+       <button type="button" name="" class="btn btn-primary" onclick="plotLoadCase()">Plot</button>
+
+    </div>
+
+  </div>
+
+  </div>
+
+</div>
+</div>
+{% endblock %}

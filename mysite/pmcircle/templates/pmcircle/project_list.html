@@ -1,0 +1,55 @@
+{% extends 'pmcircle/base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block content %}
+<section id="showcase-inner" class="py-3"  style="background-color:hsl(0, 75%, 60%);">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-12">
+        <!-- <h1 class="display-4">User Dashboard</h1> -->
+        <h2 class="display-5">Welcome {{user.username}}</h2>
+        <p class="lead">Manage your Applications</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="dashboard" class="py-2">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Project Name</th>
+              <th scope="col">Application Name</th>
+              <th scope="col">Date created</th>
+              <th scope="col">Date modified</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for project in projects %}
+            {% get_current_timezone as TIME_ZONE %}
+            <tr>
+              {% timezone "America/Chicago" %}
+              <td>{{ project.project_name }}</td>
+              <td>Circular Column PM Curve</td>
+              <td>{{ project.created_at}}</td>
+              <td>{{ project.updated_at}}</td>
+              {% endtimezone %}
+              <td><a class="btn btn-primary btn-sm" href="{% url 'pmcircle:userpmdata' project.id %}">Open</a></td>
+              <td><a class="btn btn-danger btn-sm" href="{% url 'pmcircle:deletepmdata' project.id %}">Delete</a></td>
+            </tr>
+            {% empty %}
+              <tr>
+                <td class="text-center bg-warning">No project</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

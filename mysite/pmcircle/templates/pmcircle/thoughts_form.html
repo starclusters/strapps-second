@@ -1,0 +1,23 @@
+{% extends 'pmcircle/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <!-- {{ form|crispy }} -->
+    {% for form in formset %}
+    <div class="form-row">
+      <div class="form-group col-md-6 mb-0">
+        {{ form.title|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-6 mb-0">
+        {{ form.description|as_crispy_field }}
+      </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save thoughts</button>
+  </form>
+{% endblock %}
+
+<!-- https://gist.github.com/bradmontgomery/596146 -->

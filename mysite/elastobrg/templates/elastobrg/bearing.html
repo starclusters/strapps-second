@@ -1,0 +1,202 @@
+{% extends 'elastobrg/base.html' %}
+
+{% block content %}
+
+ <script>
+    d3.xml("/static/elastobrg/svg/bearing.svg").mimeType("image/svg+xml").get(function(error, xml) {
+      if (error) throw error;
+      // document.body.appendChild(xml.documentElement);
+      document.getElementById("draw").appendChild(xml.documentElement);
+    });
+</script>
+
+ <script>
+    d3.xml("/static/elastobrg/svg/bearing2.svg").mimeType("image/svg+xml").get(function(error, xml) {
+      if (error) throw error;
+      // document.body.appendChild(xml.documentElement);
+      document.getElementById("draw2").appendChild(xml.documentElement);
+    });
+</script>
+
+<div class="container">
+  <h5 align="center">Elastomeric Bearing Design</h5>
+  <p align="center">(Based on IDOT Bridge Manual & ABD Memo 15.6)</p>
+  <h6>Step 1: Determine Size and Type of Bearing</h6>
+  <h6>(A) Select the plate size based on the loading for Types I & II bearings.</h6>
+  <p>Provide following design parameters :</p>
+
+<div class="jumbo">
+  <div class="row">
+    <div class="col">
+      <form class="form-inline">
+            <label for="DL">Dead Load Reaction (kips)</label>
+            <input id ="DL" required type="number" name="DL" value="" placeholder="Dead load">
+      </form>
+    </div>
+    <div class="col">
+      <form class="form-inline">
+            <label for="LL">Live Load Reaction without Impact (kips)</label>
+            <input id = "LL" required type="number" name="LL" value="" placeholder="Live load">
+          <button id ="drawBtn" type="button" name="button" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p id="showMsg"></p>
+
+<div id="draw" align="center"></div>
+
+<div class="">
+    <label id="brg1Result"></label><br>
+</div>
+
+  <div>
+    <form id="plateList" class="form-inline">
+      <div class="form-group">
+        <label for="plateOption">Choose a different plate from the list of other eligible sizes:</label>
+        <select class="form-control" id="plateOption" onchange="hideResult()"></select>
+      </div>
+    </form>
+    <p id="selectMessage"></p>
+  </div>
+
+<div class="stepOneB">
+  <h6>(B) Find out the type of Bearing required.</h6>
+  <p>Provide following design parameters :</p>
+<div class="jumbo">
+  <div class="row">
+    <div class="col">
+      <form class="form-inline">
+       <label for="EL">Expansion Length (ft)</label>
+        <input id = "EL" type="number" name="EL" value="" placeholder="Exp. Length">
+      </form>
+    </div>
+    <div class="col">
+      <form class="form-inline">
+        <p>Is this bridge located in Seismic Performance Zones 2, 3 or 4 ?</p>
+        <label><input class="form-check-input" type="radio" name="spz" value="No" checked="checked">No</label>
+        <label><input class="form-check-label" type="radio" name="spz" value="Yes">Yes</label>
+        <button id ="drawBtn02" type="button" name="button" class="btn btn-primary">Next</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="draw2" align="center"></div>
+
+</div>
+
+<p id="typeResult"></p>
+<p id="typeVerify">The previous assumption of Types I or II is not valid and it needs to be verified for Type III as follow:</p>
+<p id="brg2Result"></p>
+<p id="brg3Result"></p>
+<p id="brg3Comment"></p>
+<div id="draw3"></div>
+
+<!-- <button id ="nextStep" type="button" name="button" class="btn btn-primary">Add next Step</button> -->
+<div id="stepTwoInput">
+ <h6>Step 2: Get the Detailing Dimensions</h6>
+ <p>Provide following design parameters :</p>
+ <div class="jumbo">
+ <div class="row">
+   <div class="col">
+   <form>
+       <div class="form-group">
+         <label for="SL">Percent Slope (%)</label>
+         <input id = "SL" type="number" name="SL" value="" placeholder="% Slope">
+       </div>
+       <div class="form-group">
+         <label for="Wf">Bottom Flange Width, W<sub>f</sub> (in)</label>
+         <input id = "Wf" type="number" name="Wf" value="" placeholder="Flange width">
+       </div>
+       <div class="form-group">
+         <label for="Tf">Bottom Flange Thickness (in)</label>
+         <input id = "Tf" type="number" name="Tf" value="" placeholder="Flange thickness">
+       </div>
+       <div class="form-group">
+         <label for="SR">Strength I Reaction without Impact (kip)</label>
+         <input id = "SR" type="number" name="SR" value="" placeholder="Strength I without Imp.">
+       </div>
+       <div class="form-group">
+         <label for="SRI">Strength I Reaction with Impact (kip)</label>
+         <input id = "SRI" type="number" name="SRI" value="" placeholder="Strength I with Imp">
+       </div>
+   </form>
+   </div>
+   <div class="col">
+     <form>
+       <div class="form-check form-check-inline">
+         <p>Yield strength of Bearing plates (fy)</p>
+         <input class="form-check-input" type="radio" name="yieldstrength" value="36" checked="checked">
+         <label class="form-check-label" for="inlineRadio1">36 ksi</label>
+         <input class="form-check-input" type="radio" name="yieldstrength" value="50">
+         <label class="form-check-label" for="inlineRadio2">50 ksi</label>
+       </div>
+       <div class="form-check form-check-inline">
+         <p>Is bearing stiffener present ?</p>
+         <input class="form-check-input" type="radio" name="stiffener" value="No" checked="checked">
+         <label class="form-check-label" for="inlineRadio1">No</label>
+         <input class="form-check-input" type="radio" name="stiffener" value="Yes">
+         <label class="form-check-label" for="inlineRadio2">Yes</label>
+       </div>
+       <div class="form-group">
+         <label for="ENT">Expansion from 50<span>&#176;</span> normal temperature (in)</label>
+         <input id = "ENT" type="number" name="ENT" value="" placeholder="Expansion">
+       </div>
+       <div class="form-group form-inline">
+         <label for="boltOption">Anchor bolt diameter (in)</label>
+         <select class="form-control" id="boltOption">
+           <option value="0">&frac58;"</option>
+           <option value="1">&frac34;"</option>
+           <option value="2">1"</option>
+           <option value="3">1&frac14;"</option>
+           <option value="4">1&frac12;"</option>
+           <option value="5">2"</option>
+           <option value="6">2&frac12;"</option>
+         </select>
+       </div>
+       <button id ="finalBtn" type="button" name="button" class="btn btn-primary">Final Design</button>
+     </form>
+   </div>
+ </div>
+
+ </div>
+</div>
+
+<div id="divResult">
+   <h6>Detailing Parameters</h6>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr id="table01Head">
+     </tr>
+   </thead>
+   <tbody>
+     <tr id="table01Row">
+     </tr>
+   </tbody>
+ </table>
+
+ <table class="table table-bordered">
+   <thead>
+     <tr id="table02Head">
+     </tr>
+   </thead>
+   <tbody>
+     <tr id="table02Row">
+     </tr>
+   </tbody>
+ </table>
+
+  <h6>Elastomeric Bearing Details</h6>
+  <div id="draw4" align="center"></div>
+  <h6>Side Retainer Details</h6>
+  <div id="draw5" align="center"></div>
+  <div id="draw6" align="center"></div>
+
+</div>
+
+</div>
+
+{% endblock %}

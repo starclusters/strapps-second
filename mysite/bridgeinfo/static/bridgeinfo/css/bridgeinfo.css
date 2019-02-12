@@ -1,0 +1,13 @@
+#map {
+  height: 93%;  /* The height is 400 pixels */
+ }
+ /* Optional: Makes the sample page fill the window. */
+ html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.info-window-content{
+  width:200px;
+  height:300px;
+}

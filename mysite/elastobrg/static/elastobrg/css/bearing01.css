@@ -1,0 +1,27 @@
+/*
+div {
+    border-style: solid;
+    border-width: 1px;
+    border-color: green;
+  } */
+  label{
+      /* display: inline-block; */
+      /* float: left;
+      clear: left;
+      width: 250px;
+      text-align: right; */
+      margin-right: 20px;
+  }
+
+  input {
+    /* display: inline-block; */
+    float: right;
+  }
+
+
+.jumbo {
+    background: #f7f7f7;
+    border: 1px solid #eee;
+    padding: 15px;
+    /* margin-bottom: auto; */
+  }

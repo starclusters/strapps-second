@@ -1,0 +1,30 @@
+{% extends 'pmcircle/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h2 class="page-header">Project Data</h2>
+<!-- BUTTON TO TRIGGER THE ACTION -->
+{% for data in projectdata %}
+
+    <p>{{ data.id }} {{ data.number_bar }}</p>
+
+{% empty %}
+  <tr>
+    <td colspan="7" class="text-center bg-warning">No project</td>
+  </tr>
+{% endfor %}
+
+<!-- <div class="">
+  {% for pmcircle in pmcircles %}
+
+      <p>{{ pmcircle.id }} {{ pmcircle.number_bar }}</p>
+
+  {% empty %}
+    <tr>
+      <td colspan="7" class="text-center bg-warning">No project</td>
+    </tr>
+  {% endfor %}
+</div> -->
+
+{% endblock %}

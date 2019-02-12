@@ -1,0 +1,197 @@
+{% extends 'pmcircle/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block topcorner %}
+<div class="topcorner">
+  <div class="row">
+    <button type="button" name="" class="btn btn-sm d-print-none" onclick="window.print();"><i class="fas fa-print"></i> Print</button>
+  </div>
+  <br>
+  <div class="row">
+    <button type="button" id="save" class="btn btn-sm d-print-none"><i class="fas fa-save"></i> Save</button>
+  </div>
+  <br>
+  <div class="row">
+    <button type="button" id="saveAs" class="btn btn-sm d-print-none"><i class="fas fa-save"></i> Save as</button>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <h5  class="head mt-3"align="center">P-M Diagram for Circular Columns</h5>
+  <p id="detail"align="center">(Based on AASTHO LRFD 8th Edition & ACI 318-14)   </p>
+  <h6 class="head mt-0 pt-0">Input Parameters:</h6>
+
+<div class="jumbo">
+
+   <form id="pmcform" action="{% url 'pmcircle:createpmdata' %}" method="POST">
+     {% csrf_token %}
+     <div class="row">
+       <div class="col ml-3">
+         <div class="form-group">
+           {{ pm_form.design_code|as_crispy_field }}
+         </div>
+         <div class="form-group">
+           {{ pm_form.section_dia|as_crispy_field }}
+         </div>
+         <div class="form-group">
+           {{ pm_form.clear_cover|as_crispy_field }}
+         </div>
+         <div class="form-group">
+           {{ pm_form.number_bar|as_crispy_field }}
+         </div>
+         <div class="form-group">
+           {{ pm_form.trans_bar_size|as_crispy_field }}
+         </div>
+    </div>
+    <div class="col ml-3">
+      <div class="form-group">
+        {{ pm_form.main_bar_size|as_crispy_field }}
+      </div>
+      <div class="form-group">
+        {{ pm_form.f_c|as_crispy_field }}
+      </div>
+      <div class="form-group">
+        {{ pm_form.f_y|as_crispy_field }}
+      </div>
+      <div class="form-group">
+        {{ pm_form.Es|as_crispy_field }}
+      </div>
+      <div class="form-group">
+        {{ pm_form.transv_type|as_crispy_field }}
+      </div>
+
+    </div>
+    <div class="col-5 mt-5" align="center">
+  <div class="my-auto " id="xSection"></div>
+  </div>
+  </div>
+    </form>
+<p id="selfrun" class ="d-none">{{ pm_form.instance.id }}</p>
+  <!-- <button type="submit" class="btn btn-success">Save</button> -->
+</div>
+<!-- <div class="" id="xSection"></div> -->
+<div id="" align="center" class="mt-2">
+<button id ="calculate" type="button" name="button" class="btn btn-primary scrollBot d-print-none" onclick="plotCirPM()">Plot P-M Curve</button>
+</div>
+<h6 class="text-capitalize pt-3 head ">Calculated Parameters :</h6>
+<div  class="container mt-2 border border-primary">
+
+  <div id="one" class="row">
+  <div class="col-md-6">
+    <form >
+        <div class="form-group pt-2">
+          <p id="Ag">Gross sectional area, <strong>Ag = <span></span></strong></p>
+          <p id="Ig">Gross moment of inertia, <strong>Ig = <span></span></strong></p>
+          <p id="As">Total steel area, <strong>As = <span></span></strong></p>
+        </div>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <form>
+        <div class="form-group">
+          <strong><p id="beta"></p></strong>
+          <p id="percentAs">Percent of steel <strong> = <span></span></strong></p>
+          <p id="barSpacing">Bar spacing <strong> = <span></span></strong></p>
+        </div>
+    </form>
+  </div>
+ </div>
+</div>
+
+<div class="row">
+    <div class="pt-5 mx-auto mt-3" id="chart-area" style=""></div>
+  </div>
+
+<div class="">
+<div class="" id="inputLoad">
+  <div class="">
+    <div class="d-none" id="item-template">
+      <table>
+        {{ pm_load.empty_form }}
+      </table>
+    </div>
+
+  <!-- <h6 class="head mt-3 ">Plot (Pu, Mu) for different load cases in the above chart :</h6> -->
+  <p class="head mt-3 ">Plot (Pu, Mu) for different load cases in the above chart :</p>
+
+  <form id="pmcloadform" action="{% url 'pmcircle:createpmdata' %}" method="POST">
+    {% csrf_token %}
+    {{ pm_load.management_form }}
+<table class="table table-bordered table-sm table-hover table-striped">
+ <thead>
+   <tr id="tableHead03"class="head" >
+     <th scope="col-sm-2">Load Case</th>
+     <th scope="col-sm-3">Pu (kips) <i class="fas fa-info-circle d-print-none" title="Factored Axial Load"></th>
+     <th scope="col-sm-3">Mu (k-ft) <i class="fas fa-info-circle d-print-none" title="Factored Bending Moment"></th>
+   </tr>
+ </thead>
+
+ <tbody id="userData2">
+   <div class="">
+     {% for form in pm_load %}
+   <tr>
+     <div class="" id="item-{{ forloop.counter0 }}">
+       {{ form.id }}
+     <td>{{ forloop.counter }}</td>
+     <td>{{ form.pu}}</td>
+     <td>{{ form.mu}}</td>
+     {% if pm_load.can_delete %}
+     <td class="d-none">{{ form.DELETE }}</td>
+     {% endif %}
+      </div>
+   </tr>
+   {% endfor %}
+   </div>
+ </tbody>
+</table>
+
+  </form>
+</div>
+
+<div class="container-fluid">
+<div class="row">
+
+<div class="col">
+
+<div class="row">
+  <dt class="col-sm-4"><button type="button" name="button" class="btn btn-primary custom mt-2 scrollBot d-print-none add-item">Add Load Case</button></dt>
+  <dc class="col-sm-4 max-auto"><button type="button" id="plot" class="btn btn-primary mt-2 custom d-print-none" onclick="plotLoadCase()">Plot</button></dc>
+  <dd class="col-sm-4 max-auto"><button type="button" name="" class="btn btn-warning custom mt-2 d-print-none remove-item">Remove Load Case</button></dd>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!--#############################################  -->
+<div class="modal" id="projectmodal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+  <h4 class="modal-title">Give your project a name</h4>
+  <button type="close" name="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body">
+  <form class="px-2 py-1" id="nameform" action="{% url 'pmcircle:createpmdata' %}" method="POST">
+    {% csrf_token %}
+  <div class="form-group">
+      {{ project_form.project_name|as_crispy_field }}
+  </div>
+    </form>
+    <div class="modal-footer">
+      <button type="submit" id='finalsave' style="width:50%" class="btn btn-primary ml-0 mt-2">Save</button>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- #################################################### end of model ######################### -->
+
+</div>
+{% endblock %}

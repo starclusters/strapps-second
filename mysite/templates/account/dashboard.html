@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content%}
+
+    <h2>Welcome {{ user.username }}</h2>
+    {% if thoughts %}
+    {% for thought in thoughts %}
+     <!-- <p>{{thought.id}}</p> -->
+     <div class="jumbotron">
+       <p>Thought: {{thought.title}}</p>
+       <p>Description: {{thought.description}}</p>
+     </div>
+    {% endfor %}
+    {% else %}
+    <p>You dont have any thoughts</p>
+{% endif %}
+
+<button type="submit" class="btn btn-primary"><a href="{% url 'pmcircle:thoughts' %}" class="nav-link active">Create Thoughts</a></button>
+<button type="submit" class="btn btn-primary"><a href="{% url 'pmcircle:addthoughts' %}" class="nav-link active">Add Thoughts</a></button>
+{% endblock %}
