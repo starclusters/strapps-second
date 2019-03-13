@@ -1,5 +1,6 @@
 body{
-  font-family:Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+   font-family:Open Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
+
   background: #f1fffa;
 }
 .icon-top{
@@ -232,6 +233,7 @@ h1{
 
 
 .page-footer{
+  margin-top: 10px;
    background-color: #343a40;
   /* background-color: #808084; */
   /* background-color: #7F7F7F; */
@@ -329,3 +331,6 @@ h6{
     height: 35vw;
     object-fit: cover;
 } */
+h5{
+  font-size: 14px;
+}
