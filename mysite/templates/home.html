@@ -46,36 +46,61 @@
     </div>
     <!--     ************* end of title***************-->
     <div class="card-deck mt-4">
-      <div class="card mx-4">
-        <img class="card-img-top" src="{% static 'mysite/img/PMcurve.jpg' %}" alt="card image">
+      <div class="card border-dark mx-3">
+        <img class="card-img-top" src="{% static 'mysite/img/PMcurve.jpg' %}"width="240" height="200" alt="card image">
         <div class="card-body">
           <h5 class="card-title font-weight-bold text-capitalize">Concrete Column Design</h5>
           <p class="card-text">Plot PM curve for a column and locate the axial force & moment on the plot.</p>
       <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-          <a href="#" class="btn btn-primary card1" data-target="#pmmodal" data-toggle="modal">Click Here</a>
+
+          <a href="#" class="btn btn-primary card1 stretched-link" data-target="#pmmodal" data-toggle="modal">Click Here</a>
+
          <!-- <a href="#" data-target="#pmmodal" data-toggle="modal"></a> -->
     </div>
   </div>
-  <div class="card mx-4">
-    <img class="card-img-top" src="{% static 'mysite/img/bearing.png' %}" alt="card image">
+  <div class="card border-dark mx-3">
+    <img class="card-img-top" src="{% static 'mysite/img/bearing.png' %}"width="240" height="200" alt="card image">
     <div class="card-body">
-      <h5 class="card-title text-capitalize font-weight-bold">Elastomeric Bearing Design</h5>
+      <h5 class="card-title font-weight-bold text-capitalize">Elastomeric Bearing Design</h5>
       <p class="card-text">Design elastomeric bearings for bridges in Illinois.</p>
-       <a href="{% url 'elastobrg:elastoIL' %}" class="btn btn-primary card1" >Click Here</a>
+
+       <a href="{% url 'elastobrg:elastoIL' %}" class="btn btn-primary card1 stretched-link" >Click Here</a>
+
     </div>
   </div>
-  <div class="card mx-4">
-    <img class="card-img-top" src="{% static 'mysite/img/app1.JPG' %}" alt="card image">
+  <div class="card  border-dark mx-3">
+    <img class="card-img-top" src="{% static 'mysite/img/app1.jpg' %}" width="240" height="200" alt="card image">
     <div class="card-body">
-      <h5 class="card-title  text-capitalize font-weight-bold">Tollway Bridge Information System</h5>
+      <h5 class="card-title font-weight-bold text-capitalize">Tollway Bridge Information System</h5>
       <p class="card-text">Locate Illinois Tollway bridges & find related information. This app is still under development</p>
-      <a href="{% url 'bridgeinfo:tollway' %}" class="btn btn-primary card1" >Click Here</a>
-      <a href="#"></a>
-    </div>
+
+      <a href="{% url 'bridgeinfo:tollway' %}" class="btn btn-primary stretched-link card1" >Click Here</a>
+      <!-- <a href="#"></a> -->
+
+      </div>
   </div>
+  <div class="card border-dark mx-3">
+    <img class="card-img-top" src="{% static 'mysite/img/biditem.jpg' %}"width="240" height="200" alt="card image">
+
+    <div class="card-body">
+      <h5 class="card-title font-weight-bold text-capitalize">IDOT Pay Item Report</h5>
+
+      <p width="240" height="200"class="card-text">Search and Filter Pay Item Report with Awarded Prices.</p>
+
+  <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+
+      <a href="{% url 'biditem:biditem_search' %}" class="btn btn-primary card1">Click Here</a>
+     <!-- <a href="#" data-target="#pmmodal" data-toggle="modal"></a> -->
+
+</div>
+</div>
 </div>
 </div>
 <!-- ###################card end -->
+
+
+
+
 <!-- pm curve modal -->
 <div class="modal" id="pmmodal">
   <div class="modal-dialog">

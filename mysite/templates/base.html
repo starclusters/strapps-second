@@ -33,16 +33,17 @@
            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
              <a class="dropdown-item" href="{% url 'elastobrg:elastoIL' %}">Bearing Design</a>
              <a class="dropdown-item" href="#" data-target="#pmmodal" data-toggle="modal">Pm Curve</a>
-             <a class="dropdown-item" href="#">Bridge Info</a>
+             <a class="dropdown-item" href="{% url 'bridgeinfo:tollway' %}">Bridge Info</a>
+             <a class="dropdown-item" href="{% url 'biditem:biditem_search' %}">Bid Item Report</a>
            </div>
          </li>
          <li class="nav-item dropdown mt-2">
           <a class="nav-link dropdown-toggle text-capitalize" href="#applications" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Calculators</a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Section Properties</a>
-            <a class="dropdown-item" href="#">Distribution Factors</a>
-            <a class="dropdown-item" href="#">Lap Length</a>
+            <a class="dropdown-item" href="#">Section Properties..coming soon</a>
+            <a class="dropdown-item" href="#">Distribution Factors..coming soon</a>
+            <a class="dropdown-item" href="#">Lap Length..coming soon</a>
           </div>
         </li>
           <li class="nav-item"><a href="{% url 'articles' %}" class="nav-link m-2 text-capitalize">Articles</a></li>
